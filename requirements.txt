@@ -23,3 +23,8 @@ sentence-transformers # Dependency for HuggingFaceEmbeddings
 sqlalchemy        # Core Python SQL toolkit
 
 beautifulsoup4
+
+# --- CRITICAL FIX: Force CPU-only PyTorch ---
+# This prevents downloading gigabytes of CUDA files
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.3.1+cpu
