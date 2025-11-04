@@ -6,7 +6,7 @@
 # --- 2. Data Setup (Crucial for SQL Agent) ---
 # Create the SQLite database and run the scraper before starting the server.
 echo "Running data setup script..."
-python backend/function/outlet_scraper.py
+python3 backend/function/outlet_scraper.py
 
 # --- 3. Start the Server ---
 # Navigate to the backend directory and run Uvicorn.
