@@ -1,0 +1,23 @@
+# --- FastAPI and Uvicorn ---
+fastapi
+uvicorn
+python-multipart  # For robust form data handling (good practice)
+
+# --- Environment and Utilities ---
+python-dotenv
+requests          # For making HTTP calls (used in tool functions)
+
+# --- LLM and LangChain Core ---
+groq
+langchain
+langchain-core
+langchain-community 
+langchain-text-splitters
+langchain-groq
+
+# --- RAG Components (Vector Store and Embeddings) ---
+faiss-cpu
+sentence-transformers # Dependency for HuggingFaceEmbeddings
+
+# --- SQL Components ---
+sqlalchemy        # Core Python SQL toolkit
