@@ -22,3 +22,4 @@ sentence-transformers # Dependency for HuggingFaceEmbeddings
 # --- SQL Components ---
 sqlalchemy        # Core Python SQL toolkit
 
+beautifulsoup4
