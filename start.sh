@@ -1,19 +1,18 @@
 #!/bin/bash
 
-# --- 1. Installation ---
-# Railway automatically installs requirements.txt, but we ensure the environment is ready.
-
-# --- 2. Data Setup (Crucial for SQL Agent) ---
-# Create the SQLite database and run the scraper before starting the server.
+# --- 1. Data Setup (CRUCIAL FIX) ---
+# We use 'python3 -m' to invoke the scraper, ensuring we use the Python interpreter 
+# installed in the container environment.
 echo "Running data setup script..."
 python3 backend/function/outlet_scraper.py
 
-# --- 3. Start the Server ---
-# Navigate to the backend directory and run Uvicorn.
-# We explicitly set the Python path so imports like 'function.rag_service' work.
+# --- 2. Start the Server (CRUCIAL FIX) ---
+# We invoke Uvicorn directly as a module using the Python interpreter,
+# which is the most reliable way to start the ASGI server in containers.
 echo "Starting Uvicorn server..."
+# Set the Python path so imports like 'function.rag_service' work.
 export PYTHONPATH=backend
-uvicorn backend.api_server:app --host 0.0.0.0 --port $PORT --workers 4
+python3 -m uvicorn backend.api_server:app --host 0.0.0.0 --port $PORT --workers 4
 
-# NOTE: The above command assumes your main file is named api_server.py 
-# and the app instance inside is named 'app'.
+# If the above fails, an alternative safe command is:
+# exec gunicorn api_server:app -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$PORT
