@@ -1,11 +1,12 @@
 import requests
 import sqlite3
 import os
-from bs4 import BeautifulSoup #type:ignore
+from bs4 import BeautifulSoup
 
 # Define the source URL and DB path
 OUTLETS_URL = "https://zuscoffee.com/category/store/kuala-lumpur-selangor/"
-DB_FILE = "zus_outlets.db"
+# Ensure the DB file is created inside the backend folder for consistency
+DB_FILE = os.path.join(os.path.dirname(__file__), '..', 'zus_outlets.db')
 
 # --- Scraper Logic ---
 
@@ -31,45 +32,42 @@ def scrape_outlet_data():
 
         outlets = []
         for listing in outlet_listings:
-            # 1. Get Outlet Name (This selector is fine)
+            # 1. Get Outlet Name
             name_tag = listing.find("p", class_="elementor-heading-title")
             name = name_tag.get_text(strip=True) if name_tag else "N/A"
 
-            # 2. Get Address (--- THIS IS THE FIX ---)
-            
-            # First, find the unique *content* widget box
+            # 2. Get Address
             address_widget = listing.find("div", class_="elementor-widget-theme-post-content")
             
             address = "N/A"
             state = "N/A"
             
             if address_widget:
-                # Second, find the container *inside* that widget
                 address_container = address_widget.find("div", class_="elementor-widget-container")
                 if address_container:
-                    # Third, find the <p> tag *inside* that container
                     address_tag = address_container.find("p")
                     if address_tag:
                         address = address_tag.get_text(strip=True).replace("\n", " ")
                         
-                        # Basic logic to extract city/state
-                        parts = address.split(',')
-                        if len(parts) >= 2:
-                            last_part = parts[-1].strip().split()
-                            if len(last_part) >= 2:
-                                state = last_part[-1].strip()
-                            elif len(last_part) == 1:
-                                state = last_part[0].strip()
-                        
-                        if "Kuala Lumpur" in address:
+                        # --- ROBUST STATE LOGIC FIX ---
+                        # Instead of splitting strings, we check for keywords.
+                        address_lower = address.lower()
+                        if "kuala lumpur" in address_lower or "kl" in address_lower:
                             state = "Kuala Lumpur"
-                        elif "Selangor" in address:
+                        elif "selangor" in address_lower:
                             state = "Selangor"
-            
+                        else:
+                            state = "N/A" # Default if not found
+                        # --- END FIX ---
+
             # 3. Default Values
             operating_hours = "8:00 AM - 10:00 PM Daily"
             status = "Open" 
 
+            # Only print if we are running this script directly (for debugging)
+            if __name__ == "__main__":
+                 print(f"Name: {name}, State: {state}")
+            
             outlets.append((
                 name,
                 address,
@@ -89,7 +87,6 @@ def scrape_outlet_data():
         return []
 
 # --- Database Ingestion Logic ---
-# (This part remains the same as before)
 
 def setup_database(outlets_data):
     """
@@ -134,10 +131,10 @@ if __name__ == "__main__":
         print("\n--- Sample data check ---")
         conn = sqlite3.connect(DB_FILE)
         cursor = conn.cursor()
-        cursor.execute("SELECT name, address, state FROM outlets LIMIT 3")
+        print("Fetching 3 random samples:")
+        cursor.execute("SELECT name, address, state FROM outlets ORDER BY RANDOM() LIMIT 3")
         for row in cursor.fetchall():
             print(f"Name: {row[0]}\nAddress: {row[1]}\nState: {row[2]}\n")
         conn.close()
     else:
         print("Scraping failed. Cannot set up the database.")
-
