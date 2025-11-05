@@ -1,6 +1,6 @@
 #--- Force pip to use the CPU-only version of PyTorch ---
 
---index-url https://download.pytorch.org/whl/cpu
+--extra-index-url https://download.pytorch.org/whl/cpu
 
 # --- FastAPI and Uvicorn ---
 fastapi
@@ -10,6 +10,7 @@ python-multipart  # For robust form data handling (good practice)
 # --- Environment and Utilities ---
 python-dotenv
 requests          # For making HTTP calls (used in tool functions)
+beautifulsoup4
 
 # --- LLM and LangChain Core ---
 groq
@@ -25,5 +26,3 @@ sentence-transformers # Dependency for HuggingFaceEmbeddings
 
 # --- SQL Components ---
 sqlalchemy        # Core Python SQL toolkit
-
-beautifulsoup4
