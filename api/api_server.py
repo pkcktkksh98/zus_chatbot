@@ -79,6 +79,7 @@ origins = [
     "http://127.0.0.1",
     "http://127.0.0.1:3000",
     "http://localhost:5173",
+    "https://zuschatbot-production.up.railway.app/",
     "null", # Allows opening the HTML file directly from the filesystem
 ]
 
