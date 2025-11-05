@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware # Import CORS
 from pydantic import BaseModel
 from typing import List, Dict, Any
+from langchain_core.messages import HumanMessage, AIMessage
 
 # Import our new RAG service
 # Assuming the structure is: backend/api_server.py imports from backend/function/rag_service.py
@@ -149,15 +150,16 @@ async def chat_with_agent(request: ChatRequest):
     try:
         # 1. Convert Pydantic models back into LangChain message objects
         # We must use the exact 'type' and 'content' keys
+        # Convert Pydantic models into LangChain Message OBJECTS
         langchain_history = []
         for msg in request.history:
             if msg.type == "human":
-                langchain_history.append({"type": "human", "content": msg.content})
+                langchain_history.append(HumanMessage(content=msg.content))
             elif msg.type == "ai":
-                langchain_history.append({"type": "ai", "content": msg.content})
+                langchain_history.append(AIMessage(content=msg.content))
 
-        # 2. Add the new human message
-        langchain_history.append({"type": "human", "content": request.message})
+        # Add the new human message
+        langchain_history.append(HumanMessage(content=request.message))
         
         # 3. Invoke the agent
         # We use the 'messages' key, as required by create_agent
