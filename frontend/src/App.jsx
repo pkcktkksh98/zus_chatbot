@@ -214,11 +214,26 @@ function App() {
 
     } catch (error) {
       console.error("Failed to send message:", error);
+      
+      let userErrorContent = "";
+
+      // --- CUSTOM ERROR MESSAGE LOGIC ---
+      if (error.message.includes("Failed to fetch")) {
+        // This is a network error (server is offline, URL is wrong, or CORS is misconfigured)
+        userErrorContent = "Oops! The **Chatbot Server appears to be offline or unreachable** 😴. Please try again in a minute. You can check the console for details on the network error.";
+      } else if (error.message.includes("API Error: 503")) {
+        // This handles explicit 503 errors we'd check for
+        userErrorContent = "The AI services (RAG/SQL Agent) are temporarily unavailable (503). The server may have failed to initialize its core components.";
+      } else {
+        // Generic error handling for other exceptions
+        userErrorContent = `A server error occurred: **${error.message}**. Please try a different query or check the server status.`;
+      }
+      
       // Show error in chat
       const errorMessage = {
         id: `msg-${Date.now() + 1}`,
         type: 'ai',
-        content: `Sorry, I've run into an error: ${error.message}. Please make sure the API server is running at ${API_URL}.`,
+        content: userErrorContent,
         timestamp: new Date().toISOString()
       };
       setMessages(prev => [...prev, errorMessage]);
