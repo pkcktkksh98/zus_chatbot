@@ -1,6 +1,6 @@
 #--- Force pip to use the CPU-only version of PyTorch ---
 
---extra-extra-index-url https://download.pytorch.org/whl/cpu
+--extra-index-url https://download.pytorch.org/whl/cpu
 
 # --- FastAPI and Uvicorn ---
 fastapi
