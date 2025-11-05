@@ -4,6 +4,7 @@
 
 # --- FastAPI and Uvicorn ---
 fastapi
+gunicorn
 uvicorn
 python-multipart  # For robust form data handling (good practice)
 
