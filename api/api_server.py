@@ -73,24 +73,29 @@ app = FastAPI(
 # --- ADD CORS MIDDLEWARE ---
 # This allows your React app (e.g., from localhost:3000)
 # to make requests to this API (at localhost:8000)
+# --- ADD CORS MIDDLEWARE (Finalized) ---
 origins = [
+    # Local Development
     "http://localhost",
-    "http://localhost:3000"
-    "http://localhost:5173",
     "http://127.0.0.1",
-    "http://127.0.0.1:3000",
+    "http://localhost:3000",
     "http://localhost:5173",
-    "https://zus-chatbot-tphk.vercel.app/",
-    "https://zuschatbot-production.up.railway.app/",
-    "null", # Allows opening the HTML file directly from the filesystem
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5173",
+
+    # Vercel Production Domain (MUST be HTTPS and exact)
+    "https://zus-chatbot-tphk.vercel.app", 
+
+    # For local file testing
+    "null", 
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"], # Allow all methods (GET, POST, etc.)
-    allow_headers=["*"], # Allow all headers
+    allow_methods=["GET", "POST", "OPTIONS"], # Explicitly allow the OPTIONS method
+    allow_headers=["*"], 
 )
 
 # --- Pydantic Models for /chat endpoint ---
