@@ -182,13 +182,13 @@ def initialize_sql_chain():
 # --- Main Entry Point for the API Server ---
 
 # The API server will call this function during startup to get both chains
-async def initialize_chains():
+def initialize_chains():
     """Initializes and returns a tuple of (rag_chain, sql_chain)."""
     rag_chain = initialize_rag_chain()
     sql_chain = initialize_sql_chain()
     return rag_chain, sql_chain
 
-# if __name__ == "__main__":
-#     # NOTE: The bot's answers will be generic (e.g., "I don't have that info")
-#     # This is EXPECTED. We are only testing Part 1 (memory) and Part 2 (planning).
-#     # initialize_chains()
+if __name__ == "__main__":
+    # NOTE: The bot's answers will be generic (e.g., "I don't have that info")
+    # This is EXPECTED. We are only testing Part 1 (memory) and Part 2 (planning).
+    initialize_chains()
