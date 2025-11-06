@@ -79,8 +79,17 @@ def initialize_rag_chain():
     
     # 2. Define Components
     llm = ChatGroq(model=model, temperature=0)
-    # The retriever object is synchronous, but the final chain call is async
-    retriever = vector_store.as_retriever(search_kwargs={"k": 3})
+    
+    # --- FIX: Update Retriever to retrieve more diverse results ---
+    # MMR (Maximum Marginal Relevance) helps get diverse results, not just the single best match.
+    # Set k higher to retrieve all products. k=10 should be a safe maximum.
+    retriever = vector_store.as_retriever(
+        search_type="mmr",
+        search_kwargs={
+            "k": 10,  # Retrieve the top 10 diverse chunks
+            "fetch_k": 20 # Consider 20 initial chunks before selecting the top 10 for diversity
+        }
+    )
     
     # Function to format documents for the prompt
     def format_docs(docs):
