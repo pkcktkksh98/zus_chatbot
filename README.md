@@ -211,16 +211,22 @@ These interactions collectively demonstrate the Agent’s ability to:
 - Autonomously detect the correct tool based on query type.  
 - Retrieve accurate information from both structured and unstructured sources.  
 - Perform real-time reasoning and computation to return concise results.
+- Response in a friendly manner.
 
 **Screenshot Proof:**  
+<p align="center">
+  <img src="img/1.jpg" alt="Text-to-SQL output" width="350"/>
+  <img src="img/RAG&Calculator.png" alt="RAG output" width="450"/>
+  <!-- <img src="path/to/calculator_screenshot.png" alt="Calculator output" width="350"/> -->
+<!-- </p>
 ![Screenshot of combined multi-tool query output.](img/1.jpg)
-![Screenshot of combined multi-tool query output.](img/RAG&Calculator.png)
+![Screenshot of combined multi-tool query output.](img/RAG&Calculator.png) -->
 <!-- ![Screenshot of combined multi-tool query output.](img/1.jpg) -->
 
 ---
 
 
-## 4. Key Design Decisions & Trade-offs
+## 5. Key Design Decisions & Trade-offs
 
 ### 🚦 A. Deadlock Resolution (Performance & Stability)
 
