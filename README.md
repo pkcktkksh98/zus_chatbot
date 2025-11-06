@@ -217,7 +217,7 @@ These interactions collectively demonstrate the Agent’s ability to:
 <p align="center">
   <img src="img/1.jpg" alt="Text-to-SQL output" width="350"/>
   <img src="img/RAG&Calculator.png" alt="RAG output" width="450"/>
-  <!-- <img src="path/to/calculator_screenshot.png" alt="Calculator output" width="350"/> -->
+  <img src="img/2.jpg" alt="Calculator output" width="500"/>
 </p>
 <!-- ![Screenshot of combined multi-tool query output.](img/1.jpg)
 ![Screenshot of combined multi-tool query output.](img/RAG&Calculator.png) --> 
