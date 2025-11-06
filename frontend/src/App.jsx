@@ -223,7 +223,7 @@ function App() {
         userErrorContent = "Oops! The Chatbot Server appears to be offline or unreachable 😴. Please try again in a minute. You can check the console for details on the network error.";
       } else if (error.message.includes("429 Too Many Requests") || error.message.includes("rate_limit_exceeded")) {
         // Specific handling for GROQ rate limit errors (429 Too Many Requests)
-        userErrorContent = "Woah! Hold your horses! 🐴💨 We've hit a rate limit for our AI service. Please wait a moment and try your query again! You're popular!";
+        userErrorContent = "Woah! Hold your horses! 🐴💨 We've hit a rate limit for our AI service. Please wait a moment and try your query again! In the mean time, have a coffee.";
       }else if (error.message.includes("API Error: 503")) {
         // This handles explicit 503 errors we'd check for
         userErrorContent = "The AI services (RAG/SQL Agent) are temporarily unavailable (503). The server may have failed to initialize its core components.";
