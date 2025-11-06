@@ -195,6 +195,31 @@ The backend exposes four FastAPI endpoints:
 
 ---
 
+## 4. Live Demo Screenshots (Documentation)
+
+This section provides a combined demonstration of the Agent’s core functionalities, showcasing its ability to reason across multiple tools — including database querying (Text-to-SQL), knowledge retrieval (RAG), and mathematical computation (Calculator).
+
+**Purpose:**  
+To prove that the Agent can intelligently identify user intent, select the appropriate tool, and generate accurate responses from various data sources.
+
+**Example Combined Queries:**
+1. *"How many outlets does ZUS have in Selangor?"* → Uses the **Text-to-SQL** tool to query structured data from the `/outlets` SQLite database.  
+2. *"What are the features of the All Day Cup?"* → Utilizes the **RAG** tool (`/products`) to retrieve product information from the FAISS vector store.  
+3. *"What is the result of 99 minus 3 times 5?"* → Invokes the **Calculator** tool (`/calculate`) to compute the mathematical expression.
+
+These interactions collectively demonstrate the Agent’s ability to:
+- Autonomously detect the correct tool based on query type.  
+- Retrieve accurate information from both structured and unstructured sources.  
+- Perform real-time reasoning and computation to return concise results.
+
+**Screenshot Proof:**  
+![Screenshot of combined multi-tool query output.](img/1.jpg)
+![Screenshot of combined multi-tool query output.](img/RAG&Calculator.png)
+<!-- ![Screenshot of combined multi-tool query output.](img/1.jpg) -->
+
+---
+
+
 ## 4. Key Design Decisions & Trade-offs
 
 ### 🚦 A. Deadlock Resolution (Performance & Stability)
