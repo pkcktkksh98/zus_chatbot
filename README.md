@@ -40,7 +40,49 @@ The system follows a **modern, decoupled Microservices / Agentic architecture** 
 ### 💻 D. The Frontend (`frontend/src/App.jsx`)
 - **Technology:** React (Vite), styled with TailwindCSS  
 - **Function (Part 6):** Manages message history, handles user interaction, and communicates solely with the backend's `/chat` endpoint.
+### 🚀 E. Request Flow
 
+```mermaid
+flowchart TD
+    subgraph Frontend
+        direction LR
+        A["User Input + History"] --> B["React Chat UI"]
+    end
+
+    subgraph Backend
+        B -->|"POST /chat"| C["API Gateway (FastAPI)"]
+        C --> D{"Agentic Planner (Groq Llama 3)"}
+        D -->|"Reasoning / Tool Selection"| E{"Tool Router"}
+
+        subgraph Tool_Invocation ["Tool Invocation"]
+            E -->|"if Calculator Query"| F["Calculator Tool (safe_eval)"]
+            E -->|"if Product Query"| G["RAG Tool"]
+            E -->|"if Outlet Query"| H["Text-to-SQL Tool"]
+        end
+
+        F --> I["Result: Number"]
+        G --> J["Result: Product Answer (FAISS)"]
+        H --> K["Result: Outlet Answer (SQLite)"]
+
+        I --> L["Final Response Synthesis"]
+        J --> L
+        K --> L
+
+        L --> M["Final AI Message"]
+    end
+
+    M -->|"200 OK Response"| B
+
+
+   
+```
+#### 🔑 Key Steps
+
+1. **Frontend:** The user's input and the full chat history are sent to the single API endpoint.  
+2. **API Gateway:** FastAPI receives the request and passes the history and message to the **Agentic Planner (Groq Llama 3)**.  
+3. **Agentic Planner:** The LLM decides whether to respond directly or use one of the tools.  
+4. **Tool Invocation:** The chosen tool (**Calculator**, **RAG**, or **SQL**) is called as a direct Python function, preventing network deadlocks.  
+5. **Final Synthesis:** The tool's output is passed back to the **Groq Agent**, which formats the final, human-readable answer.
 ---
 
 ## 2. Setup and Installation Guide
